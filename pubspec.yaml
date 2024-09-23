@@ -48,6 +48,25 @@ dependencies:
   google_fonts: ^6.2.1
   animated_background: ^2.0.0
   flutter_custom_clippers: ^2.1.0
+  flutter_launcher_icons: ^0.13.1
+  device_preview: ^1.2.0
+
+flutter_launcher_icons:
+  #  image_path: "assets/images/icon-128x128.png"
+  image_path_android: "assets/splash_image.png"
+  image_path_ios: "assets/splash_image.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  background_color_ios: "#8C725D"
+  windows:
+    generate: true
+    image_path: "assets/splash_image.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/splash_image.png"
 
 dev_dependencies:
   flutter_test:
@@ -103,12 +122,17 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: ReemKufi
+      fonts:
+        - asset: assets/fonts/reem/ReemKufi-VariableFont_wght.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-VariableFont_opsz,wght.ttf
+    - family: Amiri
+      fonts:
+        - asset: assets/fonts/amiri/Amiri-Regular.ttf
+        
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

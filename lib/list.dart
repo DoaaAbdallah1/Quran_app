@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_final_fields, prefer_const_constructors, sort_child_properties_last
 
-import 'package:audio/models/playlist_provider.dart';
+import 'package:audio/provider/playlist_provider.dart';
 import 'package:audio/song_page_.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +16,7 @@ class ListAudios extends StatefulWidget {
 
 class _ListAudiosState extends State<ListAudios> {
   late final dynamic objectProvider;
-  final searchboxController = TextEditingController();
+  final searchBoxController = TextEditingController();
   final scrollController = ScrollController();
 
   void onListenerController() {
@@ -37,12 +35,16 @@ class _ListAudiosState extends State<ListAudios> {
   @override
   void dispose() {
     scrollController.removeListener(onListenerController);
+    print("---------Stop----------");
+    objectProvider.stopSong();
     super.dispose();
   }
 
   goToSong(int index) {
+    // objectProvider.playlist=objectProvider.filterSongsPlaylist;
     objectProvider.setCurrentIndex(index);
     // Navigate to audio player widget
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -73,7 +75,8 @@ class _ListAudiosState extends State<ListAudios> {
                     fit: BoxFit.cover,
                   ),
                   Text('القرآن الكريم',
-                      style: GoogleFonts.reemKufi(
+                      style:TextStyle(
+                                        fontFamily:"ReemKufi" ,
                         fontSize: 18.sp,
                         color: Color.fromRGBO(159, 138, 91, 1),
                         fontWeight: FontWeight.w400,
@@ -96,7 +99,7 @@ class _ListAudiosState extends State<ListAudios> {
                         Container(
                             decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [
+                            colors: const [
                               Color.fromRGBO(159, 138, 91, 0.8),
                               Color.fromRGBO(90, 77, 47, 0.8),
                             ],
@@ -116,7 +119,11 @@ class _ListAudiosState extends State<ListAudios> {
                                   SizedBox(
                                     width: 10.w,
                                   ),
-                                  Image.asset("assets/book.png",width: 25.w,height: 25.h,),
+                                  Image.asset(
+                                    "assets/book.png",
+                                    width: 25.w,
+                                    height: 25.h,
+                                  ),
                                   // Icon(
                                   //   CupertinoIcons.book,
                                   //   size: 25.sp,
@@ -127,7 +134,8 @@ class _ListAudiosState extends State<ListAudios> {
                                   ),
                                   Text(
                                     "رواية حفص عن عاصم",
-                                    style: GoogleFonts.amiri(
+                                    style:TextStyle(
+                                        fontFamily:"Amiri" ,
                                         fontSize: 19.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.white),
@@ -147,7 +155,9 @@ class _ListAudiosState extends State<ListAudios> {
                                     ),
                                     Text(
                                       "الشيخ محمود خليل الحصري",
-                                      style: GoogleFonts.amiri(
+                                      style:TextStyle(
+                                        fontFamily:"Amiri" ,
+
                                           fontSize: 18.sp,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.white),
@@ -204,9 +214,10 @@ class _ListAudiosState extends State<ListAudios> {
                           objectProvider.filterSongs(value);
                         });
                       },
-                      controller: searchboxController,
+                      controller: searchBoxController,
                       cursorColor: Colors.black54,
-                      style: GoogleFonts.inter(
+                      style: TextStyle(
+                                        fontFamily:"Inter" ,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                           color: Colors.white),
@@ -219,7 +230,8 @@ class _ListAudiosState extends State<ListAudios> {
                           size: 28,
                         ),
                         prefixIconColor: Colors.white,
-                        hintStyle: GoogleFonts.inter(
+                        hintStyle:TextStyle(
+                                        fontFamily:"Inter" ,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                             color: Colors.white),
@@ -279,7 +291,8 @@ class _ListAudiosState extends State<ListAudios> {
                                   child: Center(
                                       child: Text(
                                     "${objectProvider.playlist[index].order}",
-                                    style: GoogleFonts.amiri(
+                                    style: TextStyle(
+                                        fontFamily:"Amiri" ,
                                         fontSize: objectProvider
                                                     .playlist[index].order
                                                     .toString()
@@ -301,7 +314,8 @@ class _ListAudiosState extends State<ListAudios> {
                                   children: [
                                     Text(
                                       '${objectProvider.playlist[index].songName}',
-                                      style: GoogleFonts.amiri(
+                                      style: TextStyle(
+                                        fontFamily:"Amiri" ,
                                           fontSize: 18.sp,
                                           fontWeight: FontWeight.w400,
                                           color:
@@ -309,7 +323,8 @@ class _ListAudiosState extends State<ListAudios> {
                                     ),
                                     Text(
                                       "${objectProvider.playlist[index].type} - ${objectProvider.playlist[index].numberAyat} عدد آياتها",
-                                      style: GoogleFonts.amiri(
+                                      style:TextStyle(
+                                        fontFamily:"Amiri" ,
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w400,
                                           color:
@@ -317,8 +332,18 @@ class _ListAudiosState extends State<ListAudios> {
                                     )
                                   ],
                                 ),
-                                onTap: () {
-                                  goToSong(index);
+                                onTap: () async {
+                                  print(objectProvider.playlist[index].order);
+                                  
+                                  int indexTest =
+                                      objectProvider.playlist[index].order - 1;
+                                  print("---------------${indexTest}");
+                                  await goToSong(indexTest);
+                                  searchBoxController.text = "";
+                                  setState(() {
+                                  
+                                  });
+                                  
                                 },
                               ),
                             ),
